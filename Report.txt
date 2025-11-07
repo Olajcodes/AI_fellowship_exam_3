@@ -1,0 +1,55 @@
+Model Interpretation and Business Impact Report
+
+This report talks about the approach I employed right from data cleaning to Model deployment. It provides an interpretation of the wine quality classification model and discusses its potential business impact.
+
+Below are the steps I followed:
+During the cleaning of the data, I discovered there were 937 duplicates which was later dropped to avoid inconsistency of the data. I Conducted univariate analysis using only histograms to examine feature distributions and detect outliers. Correlation between features and the target (quality) was assessed. I transformed the numerical quality scores into categorical labels as follows: 9–8: Best, 7–6: Good, 5: Average, 4–3: Bad.
+
+1. Fixed acidity has outlier, moderately skewed and evenly distributed
+2. volatile acide has outliers, highly skewed and distrubuted
+3. citric acide has outliers, highly skewed and distributed
+4. residual sugar, chlorides, total sulphur, sulphur dioxide(fairly symmetric) have outlier and are rightly skewed except total sulphur that is fairly assymetric
+
+3.4 : Report
+
+From the Histogram, it was evident that all the numerical features were right-skewed except PH that maintained a normal distribution to some extent. All numerical features were scaled using MinMaxScaler to ensure equal influence during model training. Multiple classification algorithms were trained Logistic Regression, Decision Tree, Random Forest, Gradient Boosting, K-Nearest Neighbors (KNN), and Support Vector Machine (SVM). Accuracy, Precision, Recall, F1-score, and Confusion Matrix were all used for evaluation. The best-performing model was later fine-tuned using RandomizedSearchCV. The final model and scaler were saved and integrated into a FastAPI application for real-time prediction.
+
+Model Performance Summary
+After comparison, the Random Forest Classifier emerged as the best-performing model based on the weighted F1-score, balancing precision and recall across all quality classes.
+
+From the baseline Model (Logistic Regression), it showed that it has an accuracy of 0.686 compared to the optimized model.
+The improvement after optimization demonstrates that fine-tuning helped the model generalize better, reducing over fitting and improving its ability to predict across multiple wine quality levels.
+
+Interpretation of Metrics
+
+- Accuracy: ~79% of wines were correctly classified.
+- Precision: The model’s predictions for a given class are mostly correct (i.e., when it predicts “Good,” it’s likely correct ~78% of the time).
+- Recall: The model can identify most instances of each class, meaning it rarely misses actual “Good” or “Best” wines.
+- F1-score: A balanced metric showing overall performance.
+
+Feature Importance Analysis
+
+Using the Random Forest feature importance, the top predictors influencing wine quality were:
+
+ 1  Alcohol:  High 
+ 2  Volatile Acidity:  High 
+ 3  Sulphates:  Moderate 
+ 4  Citric Acid:  Moderate 
+ 5  Density:  Moderate 
+ 6  Total Sulfur Dioxide:  Low 
+ 7  Residual Sugar:  Low 
+ 8  Free Sulfur Dioxide:  Low 
+ 9  Chlorides:  Low 
+ 10  pH:  Low 
+
+Interpretation:
+
+Alcohol: Strongly associated with higher wine quality wines with higher alcohol content tend to score better.
+
+Volatile Acidity: Negatively correlated with quality excessive acidity decreases perceived wine quality.
+
+Sulphates & Citric Acid: Improve preservation and flavor complexity, positively influencing quality.
+
+Density and pH: Contribute moderately to predicting quality but may interact with other factors.
+
+The model’s insights have practical value for winemakers and producers.The optimized Random Forest model provides a robust and interpretable approach to predicting wine quality based on measurable chemical features. Beyond its predictive accuracy, it offers valuable insights into key factors that drive wine quality. These insights can empower wine producers to refine their production process, maintain consistent quality, and strategically enhance profitability through data-driven decision-making.

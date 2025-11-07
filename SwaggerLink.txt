@@ -1,0 +1,6 @@
+The link to my Swagger API Documentation is http://127.0.0.1:8000/docs#/default/predict_wine_quality_predict_post
+
+
+
+
+
